@@ -1,0 +1,105 @@
+
+        :root {
+            --bg-color: #fcfbf7;
+            --text-color: #2c2520;
+            --accent-color: #8c2f1b;
+            --panel-bg: #ffffff;
+            --border-color: #e6dfd3;
+        }
+        body {
+            font-family: 'Georgia', serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.8;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 5px;
+            color: var(--accent-color);
+        }
+        .author {
+            text-align: center;
+            font-style: italic;
+            color: #666;
+            margin-bottom: 40px;
+        }
+        .chapter-title {
+            font-size: 1.4rem;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        p {
+            font-size: 1.15rem;
+            text-align: justify;
+            text-justify: inter-word;
+        }
+        .paywall-container {
+            position: relative;
+            margin-top: -50px;
+            padding-top: 100px;
+            background: linear-gradient(to bottom, rgba(252,251,247,0) 0%, rgba(252,251,247,1) 30%);
+            text-align: center;
+        }
+        .paywall-box {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            display: inline-block;
+            max-width: 90%;
+            box-sizing: border-box;
+        }
+        .paywall-box h3 {
+            margin-top: 0;
+            color: var(--accent-color);
+        }
+        .price {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+        .btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-family: sans-serif;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn:hover {
+            background-color: #6b2212;
+        }
+        .hidden-content {
+            display: none;
+        }
+        .unlocked .paywall-container {
+            display: none;
+        }
+        .unlocked .hidden-content {
+            display: block;
+        }
+        .badge {
+            display: inline-block;
+            background: #e6dfd3;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-family: sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+    
