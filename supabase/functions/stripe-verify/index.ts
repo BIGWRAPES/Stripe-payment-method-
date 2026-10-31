@@ -1,5 +1,4 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
-import Stripe from "https://esm.sh/stripe@11.1.0?target=deno"
 
 const allowedOrigins = [
   'https://bigwrapes.github.io',
@@ -39,11 +38,27 @@ serve(async (req) => {
       })
     }
 
-    const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY') || '', {
-      apiVersion: '2022-11-15',
-      httpClient: Stripe.createSubtleCryptoProvider(),
-    })
-    const session = await stripe.checkout.sessions.retrieve(sessionId)
+    const stripeSecretKey = Deno.env.get('STRIPE_SECRET_KEY')
+    if (!stripeSecretKey) {
+      return new Response(JSON.stringify({ error: 'Stripe is not configured' }), {
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
+    }
+
+    const stripeResponse = await fetch(
+      `https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(sessionId)}`,
+      { headers: { Authorization: `Bearer ${stripeSecretKey}` } },
+    )
+    const session = await stripeResponse.json()
+
+    if (!stripeResponse.ok) {
+      console.error('Stripe session lookup failed:', session.error?.message ?? stripeResponse.status)
+      return new Response(JSON.stringify({ error: 'Unable to verify payment' }), {
+        status: 502,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
+    }
 
     if (session.payment_status !== 'paid' || !session.metadata?.book_id) {
       return new Response(JSON.stringify({ error: 'Payment is not complete' }), {

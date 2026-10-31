@@ -32,7 +32,7 @@ serve(async (req) => {
       const session = event.data.object
       const { user_id, book_id } = session.metadata || {}
 
-      if (user_id && book_id) {
+      if (session.payment_status === 'paid' && user_id && book_id) {
         const supabase = createClient(SUPABASE_URL || '', SUPABASE_SERVICE_ROLE_KEY || '')
 
         // Corrected columns matching our database schema
@@ -43,7 +43,7 @@ serve(async (req) => {
             book_id: book_id,
             has_access: true,
             purchased_at: new Date().toISOString()
-          })
+          }, { onConflict: 'user_id,book_id' })
 
         if (error) {
           console.error('Database update failed:', error)
