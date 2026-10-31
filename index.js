@@ -1,4 +1,4 @@
-const FUNCTIONS_URL = 'http://localhost:54321/functions/v1';
+const FUNCTIONS_URL = 'https://clmvpmoivnggwwwvvjkd.supabase.co/functions/v1';
 const BOOK_ID = 'mysterious-island-001';
 const MOCK_USER_ID = 'user_practice_123';
 

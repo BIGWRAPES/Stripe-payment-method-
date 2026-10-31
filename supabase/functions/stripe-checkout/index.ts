@@ -1,13 +1,23 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import Stripe from "https://esm.sh/stripe@11.1.0?target=deno"
 
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+const allowedOrigins = [
+  'https://bigwrapes.github.io',
+  'http://localhost:5500',
+  'http://127.0.0.1:5500',
+]
+
+function getCorsHeaders(origin: string | null) {
+  return {
+    ...(origin && allowedOrigins.includes(origin) ? { 'Access-Control-Allow-Origin': origin } : {}),
+    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  }
 }
 
 serve(async (req) => {
+  const corsHeaders = getCorsHeaders(req.headers.get('Origin'))
+
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders })
   }
@@ -43,8 +53,8 @@ serve(async (req) => {
         },
       ],
       mode: 'payment',
-      success_url: `http://localhost:5500/index.html?payment=success&session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `http://localhost:5500/index.html?payment=cancelled`,
+      success_url: `https://bigwrapes.github.io/Stripe-payment-method-/?payment=success&session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `https://bigwrapes.github.io/Stripe-payment-method-/?payment=cancelled`,
       metadata: {
         user_id: userId,
         book_id: bookId,
