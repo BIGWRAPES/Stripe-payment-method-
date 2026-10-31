@@ -85,6 +85,13 @@
         .hidden-content {
             display: none;
         }
+        .payment-status:empty {
+            display: none;
+        }
+        .payment-status {
+            text-align: center;
+            color: var(--accent-color);
+        }
         .unlocked .paywall-container {
             display: none;
         }
